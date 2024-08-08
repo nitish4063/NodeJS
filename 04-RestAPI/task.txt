@@ -1,0 +1,15 @@
+REST_API - JSON
+
+GET /users - renders a HTML document with all users
+GET /api/users  -list all users JSON
+
+GET /api/users/1  -get user with id 1
+GET /api/users/2  -get user with id 2
+
+POST /api/users   -create new user
+
+PATCH /api/users/1  -edit the user with id 1
+
+DELETE /api/users/1 - delete the user with id 1
+
+
