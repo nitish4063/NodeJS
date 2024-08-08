@@ -1,7 +1,11 @@
 const express = require("express");
+const users = require("./MOCK_DATA.json");
+const fs = require("fs");
+
 const app = express();
 
-const users = require("./MOCK_DATA.json");
+// middleware
+app.use(express.urlencoded({ extended: false }));
 
 // client will get the html document which we created at the server side
 app.get("/users", (req, res) => {
@@ -28,16 +32,40 @@ app
     return res.json(user);
   })
   .patch((req, res) => {
-    const id = req.params.id;
-    return res.json({ status: "pending" });
+    const id = Number(req.params.id);
+    const body = req.body;
+
+    const user = users.find((user) => user.id === id);
+    const updatedUser = { ...user, ...body };  // overwriting existing key value pairs
+
+    const ind = users.findIndex((user) => user.id === id);
+    users[ind] = updatedUser;
+
+    fs.writeFile("./MOCK_DATA.json", JSON.stringify(users), (err, data) => {
+      return res.json({ status: "success", updatedUser });
+    });
   })
   .delete((req, res) => {
-    const id = req.params.id;
-    return res.json({ status: "pending" });
+    const id = Number(req.params.id);
+
+    const ind = users.findIndex((user) => user.id === id);
+    const deleted = users.splice(ind, 1)[0];
+
+    fs.writeFile("./MOCK_DATA.json", JSON.stringify(users), (err, data) => {
+      return res.json({ status: "success", deleted });
+    });
   });
 
-app.post("api/users", (req, res) => {
-  return res.json({ status: "pending" });
+app.post("/api/users", (req, res) => {
+  const body = req.body;
+
+  const newObj = { id: Date.now(), ...body };
+  users.push(newObj);
+
+  fs.writeFile("./MOCK_DATA.json", JSON.stringify(users), (err, data) => {
+    return res.json({ status: "success, new user created", newObj });
+  });
 });
+
 
 app.listen(8080, () => console.log("server started on port 8080"));
