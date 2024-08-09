@@ -1,0 +1,3 @@
+1. create SCHEMA -> define the structure
+2. using SCHEMA, create MODEL
+3. using MODEL, we do CRUD operations like create, read, update, delete
