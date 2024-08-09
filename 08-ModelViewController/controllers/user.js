@@ -17,9 +17,9 @@ const handleGetUserById = async (req, res) => {
 const handleUpdateUserById = async (req, res) => {
   const id = req.params.id;
   const body = req.body;
-  await User.findByIdAndUpdate(id, body);
+  const updated = await User.findByIdAndUpdate(id, body, { new: true });
 
-  return res.json({ status: "SUCCESSFULLY UPDATED" });
+  return res.json({ status: "SUCCESSFULLY UPDATED", updated });
 };
 
 const handleDeleteUserById = async (req, res) => {
