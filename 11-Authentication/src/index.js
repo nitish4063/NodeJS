@@ -13,7 +13,7 @@ connectMongoDb("mongodb://127.0.0.1:27017/short-url").then(() =>
 
 // FOR SERVER SIDE RENDERING, WE USE EJS ENGINE
 app.set("view engine", "ejs");
-app.set("views", path.resolve("./views"));
+app.set("views", path.resolve("src/views"));
 
 // MIDDLEWARES
 app.use(express.json());
