@@ -1,9 +1,15 @@
 const express = require("express");
 const path = require("path");
+const cookieParser = require("cookie-parser");
+const connectMongoDb = require("./connection");
+
+const UrlModel = require("./models/url");
+
 const urlRouter = require("./routes/url");
 const staticRouter = require("./routes/staticRouter");
-const connectMongoDb = require("./connection");
-const UrlModel = require("./models/url");
+const userRouter = require("./routes/user");
+
+const { restrictToLoggedInUserOnly, checkAuth } = require("./middlewares/auth");
 
 const app = express();
 
@@ -18,15 +24,17 @@ app.set("views", path.resolve("src/views"));
 // MIDDLEWARES
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+app.use(cookieParser());
+
+// ROUTES
+app.use("/url", restrictToLoggedInUserOnly, urlRouter);
+app.use("/", checkAuth, staticRouter);
+app.use("/user", userRouter);
 
 app.get("/test", async (req, res) => {
   const allUrls = await UrlModel.find({});
   // HOME PAGE IS RENDERED BY EJS
   return res.render("home", { urls: allUrls, name: "jon" });
 });
-
-// ROUTES
-app.use("/url", urlRouter);
-app.use("/", staticRouter);
 
 app.listen(8080, () => console.log("Server runnning at PORT 8080"));
