@@ -1,0 +1,11 @@
+{
+    "highlight-matching-tag.styles": {
+        "opening": {
+          "name": {
+            "underline": "yellow"
+          }
+        }
+    },
+    "editor.guides.bracketPairs": true,
+    "editor.bracketPairColorization.independentColorPoolPerBracketType": true
+}
