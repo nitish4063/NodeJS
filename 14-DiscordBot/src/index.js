@@ -7,6 +7,8 @@ const client = new Client({
   ],
 });
 
+const { TOKEN } = require("../info.js");
+
 client.on("messageCreate", (message) => {
   if (message.author.bot) return;
   if (message.content.startsWith("create")) {
@@ -25,6 +27,4 @@ client.on("interactionCreate", (interaction) => {
   interaction.reply("PONG!!!!");
 });
 
-client.login(
-  "MTI3MjIyNTE5MDc4ODU5NTkyMw.GxcoKV.f_yoiwyieqScPce-Ig2K2Iq2mN1C9b4jXnbH3s"
-);
+client.login(TOKEN);
