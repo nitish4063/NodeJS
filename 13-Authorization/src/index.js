@@ -9,7 +9,7 @@ const urlRouter = require("./routes/url");
 const staticRouter = require("./routes/staticRouter");
 const userRouter = require("./routes/user");
 
-const { restrictToLoggedInUserOnly, checkAuth } = require("./middlewares/auth");
+const { checkForAuthentication, restrictTo } = require("./middlewares/auth");
 
 const app = express();
 
@@ -25,10 +25,11 @@ app.set("views", path.resolve("src/views"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
+app.use(checkForAuthentication);
 
 // ROUTES
-app.use("/url", restrictToLoggedInUserOnly, urlRouter);
-app.use("/", checkAuth, staticRouter);
+app.use("/url", restrictTo(["NORMAL", "ADMIN"]), urlRouter); // this route is restricted to normal user
+app.use("/", staticRouter);
 app.use("/user", userRouter);
 
 app.get("/test", async (req, res) => {
