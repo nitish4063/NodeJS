@@ -3,7 +3,7 @@
   data-bs-theme="dark"
 >
   <div class="container-fluid">
-    <a class="navbar-brand" href="#">Blogify</a>
+    <a class="navbar-brand" href="/">Blogify</a>
     <button
       class="navbar-toggler"
       type="button"
@@ -20,8 +20,9 @@
         <li class="nav-item">
           <a class="nav-link active" aria-current="page" href="#">Home</a>
         </li>
+        <% if (locals.user) { %>
         <li class="nav-item">
-          <a class="nav-link" href="#">Add Blog</a>
+          <a class="nav-link" href="/blog/add-new">Add Blog</a>
         </li>
 
         <li class="nav-item dropdown">
@@ -32,13 +33,27 @@
             data-bs-toggle="dropdown"
             aria-expanded="false"
           >
-            userName
+            AEGON
           </a>
           <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="#">LogOut</a></li>
+            <li><a class="dropdown-item" href="/user/logout">LogOut</a></li>
           </ul>
         </li>
+        <% } else{ %>
+        <li class="nav-item">
+          <a class="nav-link" href="/user/signup">Create Account</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/user/signin">SignIn</a>
+        </li>
+        <% }%>
       </ul>
     </div>
   </div>
 </nav>
+
+<% if (locals.error) { %>
+<div class="container mt-4">
+  <div class="alert alert-danger" role="alert"><%= locals.error %></div>
+</div>
+<% } %>
